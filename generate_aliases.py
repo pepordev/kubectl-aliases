@@ -34,19 +34,25 @@ def main():
     ]
 
     globs = [
-        ('sys', '--namespace=kube-system', None, ['sys', 'm']),
-        ('m', '--namespace=management', None, ['m', 'sys'])
+        ('sys', '--namespace=kube-system', None, ['sys', 'm', 'es', 'l', 'argo', 'r', 'cs', 'sp']),
+        ('m', '--namespace=monitoring', None, ['m', 'sys', 'es', 'l', 'argo', 'r', 'cs', 'sp']),
+        ('es', '--namespace=external-secrets', None, ['es', 'sys', 'm', 'l', 'argo', 'r', 'cs', 'sp']),
+        ('l', '--namespace=logging', None, ['l', 'sys', 'm', 'es', 'argo', 'r', 'cs', 'sp']),
+        ('argo', '--namespace=argocd', None, ['argo', 'sys', 'm', 'es', 'l', 'r', 'cs', 'sp']),
+        ('r', '--namespace=reloader', None, ['r', 'sys', 'm', 'es', 'l', 'argo', 'cs', 'sp']),
+        ('cs', '--namespace=capsule-system', None, ['cs', 'sys', 'm', 'es', 'l', 'argo', 'r', 'sp']),
+        ('sp', '--namespace=spegel', None, ['sp', 'sys', 'm', 'es', 'l', 'argo', 'r', 'cs'])
     ]
 
     ops = [
         ('a', 'apply --recursive -f', None, ['wk']),
-        ('ak', 'apply -k', None, ['sys', 'm', 'wk']),
-        ('k', 'kustomize', None, ['sys', 'm', 'wk']),
+        ('ak', 'apply -k', None, ['sys', 'm', 'es', 'l', 'argo', 'r', 'cs', 'sp', 'wk']),
+        ('k', 'kustomize', None, ['sys', 'm', 'es', 'l', 'argo', 'r', 'cs', 'sp', 'wk']),
         ('ex', 'exec -i -t', None, ['wk']),
         ('lo', 'logs -f', None, ['wk']),
         ('lop', 'logs -f -p', None, ['wk']),
-        ('p', 'proxy', None, ['sys', 'm','wk']),
-        ('pf', 'port-forward', None, ['sys', 'm','wk']),
+        ('p', 'proxy', None, ['sys', 'm', 'es', 'l', 'argo', 'r', 'cs', 'sp', 'wk']),
+        ('pf', 'port-forward', None, ['sys', 'm', 'es', 'l', 'argo', 'r', 'cs', 'sp', 'wk']),
         ('g', 'get', None, None),
         ('d', 'describe', None, ['wk']),
         ('rm', 'delete', None, ['wk']),
@@ -66,15 +72,28 @@ def main():
         ('pvc', 'persistentvolumeclaim', ['g', 'd', 'rm'], None),
         ('pv', 'persistentvolume', ['g', 'd', 'rm'], ['sys', 'm']),
         ('no', 'nodes', ['g', 'd'], ['sys', 'm']),
-        ('ns', 'namespaces', ['g', 'd', 'rm'], ['sys', 'm']),
-        ('gr', 'gitrepository', ['g', 'd', 'rm'], None),
-        ('h', 'helmrepository', ['g', 'd', 'rm'], None),
-        ('hr', 'helmrelease', ['g', 'd', 'rm', 'r', 're', 's'], None),
-        ('k', 'kustomization', ['g', 'd', 'rm', 'r', 're', 's'], None),
-        ('ss', 'secretstore', ['g', 'd', 'rm'], None),
-        ('es', 'externalsecret', ['g', 'd', 'rm'], None),
-        ('ces', 'clusterexternalsecret', ['g', 'd', 'rm'], ['sys', 'm']),
-        ('css', 'clustersecretstore', ['g', 'd', 'rm'], ['sys', 'm']),
+        ('ns', 'namespaces', ['g', 'd', 'rm'], ['sys', 'm', 'es', 'l', 'argo', 'r', 'cs', 'sp']),
+        ('ss', 'secretstores', ['g', 'd', 'rm'], None),
+        ('es', 'externalsecrets', ['g', 'd', 'rm'], None),
+        ('ces', 'clusterexternalsecrets', ['g', 'd', 'rm'], ['sys', 'm', 'es', 'l', 'argo', 'r', 'cs', 'sp']),
+        ('css', 'clustersecretstores', ['g', 'd', 'rm'], ['sys', 'm', 'es', 'l', 'argo', 'r', 'cs', 'sp']),
+        ('pv', 'persistentvolume', ['g', 'd'], ['sys', 'm', 'es', 'l', 'argo', 'r', 'cs', 'sp']),
+        ('no', 'nodes', ['g', 'd'], ['sys', 'm', 'es', 'l', 'argo', 'r', 'cs', 'sp']),
+        ('nc', 'nodeclaims', ['g', 'd', 'rm'], ['sys', 'm', 'es', 'l', 'argo', 'r', 'cs', 'sp']),
+        ('np', 'nodepools', ['g', 'd', 'rm'], ['sys', 'm', 'es', 'l', 'argo', 'r', 'cs', 'sp']),
+        ('so', 'scaledobjects', ['g', 'd', 'rm'], None),
+        ('ch', 'challenges', ['g', 'd', 'rm'], None),
+        ('ord', 'orders', ['g', 'd', 'rm'], None),
+        ('cert', 'certificates', ['g', 'd', 'rm'], None),
+        ('cj', 'cronjobs', ['g', 'd', 'rm'], None),
+        ('job', 'jobs', ['g', 'd', 'rm'], None),
+        ('cr', 'certificaterequests', ['g', 'd', 'rm'], None),
+        ('is', 'issuers', ['g', 'd', 'rm'], None),
+        ('cis', 'clusterissuers', ['g', 'd', 'rm'], ['sys', 'm', 'es', 'l', 'argo', 'r', 'cs', 'sp']),
+        ('amc', 'alertmanagerconfigs', ['g', 'd', 'rm'], None),
+        ('pr', 'prometheusrules', ['g', 'd', 'rm'], None),
+        ('sm', 'servicemonitors', ['g', 'd', 'rm'], None),
+        ('np', 'networkpolicies', ['g', 'd', 'rm'], None),
     ]
     res_types = [r[0] for r in res]
 
@@ -82,7 +101,7 @@ def main():
         ('oyaml', '-o=yaml', ['g'], ['owide', 'ojson', 'sl']),
         ('owide', '-o=wide', ['g'], ['oyaml', 'ojson']),
         ('ojson', '-o=json', ['g'], ['owide', 'oyaml', 'sl']),
-        ('all', '--all-namespaces', ['g', 'd'], ['rm', 'no', 'sys']),
+        ('all', '--all-namespaces', ['g', 'd'], ['rm', 'no', 'sys', 'm', 'es', 'l', 'argo', 'r', 'cs', 'sp']),
         ('sl', '--show-labels', ['g'], ['oyaml', 'ojson'] + diff(res_types, ['po', 'dep'])),
         ('all', '--all', ['rm'], None), # caution: reusing the alias
         ]
@@ -90,15 +109,15 @@ def main():
     # these accept a value, so they need to be at the end and
     # mutually exclusive within each other.
     positional_args = [
-        ('f', '--recursive -f', ['g', 'd', 'rm'], res_types + ['all', 'l', 'sys', 'm']),
+        ('f', '--recursive -f', ['g', 'd', 'rm'], res_types + ['all', 'l', 'sys', 'm', 'es', 'argo', 'r', 'cs', 'sp']),
         ('l', '-l', ['g', 'd', 'rm'], ['all']),
-        ('n', '--namespace', ['g', 'd', 'rm','lo', 'ex', 'pf'], ['ns', 'no', 'sys', 'm', 'all', 'ces', 'css'])
+        ('n', '--namespace', ['g', 'd', 'rm','lo', 'ex', 'pf'], ['ns', 'no', 'sys', 'm', 'es', 'l', 'argo', 'r', 'cs', 'sp', 'all', 'ces', 'css'])
     ]
 
     # [(part, optional, take_exactly_one)]
     parts = [
         (cmds, False, True),
-        (globs, True, False),
+        (globs, True, True),  # changed to True - namespaces are mutually exclusive
         (ops, True, True),
         (res, True, True),
         (args, True, False),
@@ -106,8 +125,7 @@ def main():
         ]
 
     out = gen(parts)
-    out = filter(is_valid, out)
-
+    
     # prepare output
     if not sys.stdout.isatty():
         header_path = \
@@ -115,7 +133,8 @@ def main():
         with open(header_path, 'r') as f:
             print(f.read())
     for cmd in out:
-        print("alias {}='{}'".format(''.join([a[0] for a in cmd]), ' '.join([a[1] for a in cmd])))
+        if is_valid(cmd):
+            print("alias {}='{}'".format(''.join([a[0] for a in cmd]), ' '.join([a[1] for a in cmd])))
 
 
 def gen(parts):
@@ -148,35 +167,23 @@ def gen(parts):
 
 
 def is_valid(cmd):
-    for i in xrange(0, len(cmd)):
-
+    # Build a set of aliases seen so far for faster lookups
+    seen = set()
+    
+    for item in cmd:
+        alias = item[0]
+        requirements = item[2]
+        incompatibilities = item[3]
+        
         # check at least one of requirements are in the cmd
-        requirements = cmd[i][2]
-        if requirements:
-            found = False
-            for r in requirements:
-                for j in xrange(0, i):
-                    if cmd[j][0] == r:
-                        found = True
-                        break
-                if found:
-                    break
-            if not found:
-                return False
+        if requirements and not any(r in seen for r in requirements):
+            return False
 
         # check none of the incompatibilities are in the cmd
-        incompatibilities = cmd[i][3]
-        if incompatibilities:
-            found = False
-            for inc in incompatibilities:
-                for j in xrange(0, i):
-                    if cmd[j][0] == inc:
-                        found = True
-                        break
-                if found:
-                    break
-            if found:
-                return False
+        if incompatibilities and any(inc in seen for inc in incompatibilities):
+            return False
+        
+        seen.add(alias)
 
     return True
 
