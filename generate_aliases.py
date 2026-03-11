@@ -93,7 +93,7 @@ def main():
         ('amc', 'alertmanagerconfigs', ['g', 'd', 'rm'], None),
         ('pr', 'prometheusrules', ['g', 'd', 'rm'], None),
         ('sm', 'servicemonitors', ['g', 'd', 'rm'], None),
-        ('np', 'networkpolicies', ['g', 'd', 'rm'], None),
+        ('ntp', 'networkpolicies', ['g', 'd', 'rm'], None),
     ]
     res_types = [r[0] for r in res]
 
