@@ -94,6 +94,9 @@ def main():
         ('pr', 'prometheusrules', ['g', 'd', 'rm'], None),
         ('sm', 'servicemonitors', ['g', 'd', 'rm'], None),
         ('ntp', 'networkpolicies', ['g', 'd', 'rm'], None),
+        ('crd', 'customresourcedefinitions', ['g', 'd', 'rm'], ['sys', 'm', 'es', 'l', 'argo', 'r', 'cs', 'sp']),
+        ('app', 'applications.argoproj.io', ['g', 'd', 'rm'], None),
+        
     ]
     res_types = [r[0] for r in res]
 
